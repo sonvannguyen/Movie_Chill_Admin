@@ -1,0 +1,15 @@
+{
+  "root": true,
+  "extends": ["@nuxtjs/eslint-config-typescript", "prettier"],
+  "ignorePatterns": [
+    ".nuxt",
+    "node_modules",
+    "package.json",
+    "tsconfig.json",
+    "README.md",
+    "/locales/ja.json",
+    "*.svg",
+    "*.css",
+    "*.scss"
+  ]
+}

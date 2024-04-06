@@ -1,0 +1,84 @@
+@use '@/assets/scss/colors.scss' as *;
+@use 'sass:map';
+
+.padding-header-footer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 15px 0px;
+
+  @media screen and (max-width: 768px) {
+    padding: 16px;
+  }
+
+  @media screen and (max-width: 1024px) and (min-width: 768px) {
+    padding: 16px 40px;
+  }
+}
+
+.common-padding {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 0px;
+
+  @media screen and (max-width: 768px) {
+    padding: 20px 16px;
+  }
+
+  @media screen and (max-width: 1024px) and (min-width: 768px) {
+    padding: 10px 40px;
+  }
+}
+
+.text-increased-price {
+  color: map.get($colors, 'increased-price');
+}
+
+.text-decreased-price {
+  color: map.get($colors, 'decreased-price');
+}
+
+.common-title {
+  font-size: 20px;
+  color: map.get($colors, 'text-primary');
+  font-weight: 700;
+
+  @screen md {
+    color: map.get($colors, 'text-primary');
+    font-size: 36px;
+    font-weight: 700;
+  }
+}
+
+.title {
+  padding: 5px 0 25px;
+}
+
+.common-text {
+  color: map.get($colors, 'text-primary');
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.common-text-privacy-security {
+  color: map.get($colors, 'text-security');
+  line-height: 1.88;
+}
+
+.heading-contact {
+  font-size: 16px;
+  margin-bottom: 10px;
+  @screen md {
+    font-size: 18px;
+  }
+}
+.panel-contact .content {
+  background: map.get($colors, 'panel-content-security');
+  padding: 20px;
+  a {
+    color: map.get($colors, 'text-link');
+    cursor: pointer;
+    text-decoration: none;
+    outline: 0;
+    transition: all 0.3s;
+  }
+}

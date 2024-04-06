@@ -1,0 +1,13 @@
+{
+  "html.format.enable": false,
+  "javascript.format.enable": false,
+  "json.format.enable": false,
+  "css.validate": false,
+  "scss.validate": false,
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
