@@ -1,7 +1,7 @@
 <template>
   <div>
     <CommonSidebar />
-    
+
     <div class="ml-[330px] w-[1100px]">
       <CommonHeader title="Movies"></CommonHeader>
 
@@ -14,12 +14,23 @@
         <CommonButton title="Search"></CommonButton>
       </div>
 
-      <MovieCrud>tewstttt</MovieCrud>
+      <MovieCrud v-if="listMovie?.length" :listData="listMovie"></MovieCrud>
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import movieApi from '~/services/movie-api'
+
+const listMovie = ref([])
+
+onMounted(async () => {
+  const response = await movieApi.getAllMovie()
+  if (response?.moviesData?.length) {
+    listMovie.value = response.moviesData
+  }
+})
+</script>
 
 <style scoped lang="scss">
 @use 'sass:map';

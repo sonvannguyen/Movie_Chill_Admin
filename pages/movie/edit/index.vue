@@ -5,122 +5,268 @@
     <div class="ml-[330px] w-[1100px] mb-[200px]">
       <CommonHeader title="Chỉnh sửa phim"></CommonHeader>
 
-      <div class="flex justify-between">
-        <div class="flex flex-col gap-3 w-[45%]">
-          <div>
-            <h3 class="text-lg font-bold mb-1">Tên phim:</h3>
-            <v-text-field variant="outlined"></v-text-field>
+      <CommonLoading v-if="isLoading"> </CommonLoading>
+
+      <div v-else>
+        <div class="flex justify-between">
+          <div class="flex flex-col gap-3 w-[45%]">
+            <div>
+              <h3 class="text-lg font-bold mb-1">Tên phim:</h3>
+              <v-text-field
+                v-model="movieName"
+                variant="outlined"
+              ></v-text-field>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-bold mb-1">Tên gốc:</h3>
+              <v-text-field
+                v-model="originName"
+                variant="outlined"
+              ></v-text-field>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-bold mb-1">Slug URL:</h3>
+              <v-text-field v-model="slugUrl" variant="outlined"></v-text-field>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-bold mb-1">Loại phim:</h3>
+              <v-select
+                v-model="type"
+                :items="MOVIE_TYPE"
+                variant="outlined"
+              ></v-select>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-bold mb-1">Thể loại:</h3>
+              <v-select
+                v-model="category"
+                :items="CATEGORY"
+                variant="outlined"
+              ></v-select>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-bold mb-1">Quốc gia:</h3>
+              <v-select
+                v-model="country"
+                :items="COUNTRY"
+                variant="outlined"
+              ></v-select>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-bold mb-1">Diễn viên:</h3>
+              <v-textarea v-model="actor" variant="outlined"></v-textarea>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-bold mb-1">Tổng số tập:</h3>
+              <v-text-field
+                v-model="episodeTotal"
+                variant="outlined"
+              ></v-text-field>
+            </div>
           </div>
 
-          <div>
-            <h3 class="text-lg font-bold mb-1">Tên gốc:</h3>
-            <v-text-field variant="outlined"></v-text-field>
-          </div>
+          <div class="flex flex-col gap-3 w-[45%]">
+            <div>
+              <h3 class="text-lg font-bold mb-1">Ảnh thumbnail:</h3>
+              <CommonUploadImage
+                name="thumbUrl"
+                label=""
+                :default-value="thumbUrl"
+                @upload-image="handleUploadImage"
+              />
+              <!-- <img class="w-[100px]" :src="thumbUrl" alt="" /> -->
+            </div>
 
-          <div>
-            <h3 class="text-lg font-bold mb-1">Slug URL:</h3>
-            <v-text-field variant="outlined"></v-text-field>
-          </div>
+            <div>
+              <h3 class="text-lg font-bold mb-1">Ảnh banner:</h3>
+              <CommonUploadImage
+                name="posterUrl"
+                label=""
+                :default-value="posterUrl"
+                @upload-image="handleUploadImage"
+              />
+              <!-- <img class="w-[100px]" :src="posterUrl" alt="" /> -->
+            </div>
 
-          <div>
-            <h3 class="text-lg font-bold mb-1">Loại phim:</h3>
-            <v-select :items="MOVIE_TYPE" variant="outlined"></v-select>
-          </div>
+            <div>
+              <h3 class="text-lg font-bold mb-1">Nội dung:</h3>
+              <v-textarea v-model="content" variant="outlined"></v-textarea>
+            </div>
 
-          <div>
-            <h3 class="text-lg font-bold mb-1">Thể loại:</h3>
-            <v-select :items="CATEGORY" variant="outlined"></v-select>
-          </div>
+            <div>
+              <h3 class="text-lg font-bold mb-1">Trạng thái:</h3>
+              <v-select
+                v-model="status"
+                :items="STATUS"
+                variant="outlined"
+              ></v-select>
+            </div>
 
-          <div>
-            <h3 class="text-lg font-bold mb-1">Quốc gia:</h3>
-            <v-select :items="COUNTRY" variant="outlined"></v-select>
-          </div>
-
-          <div>
-            <h3 class="text-lg font-bold mb-1">Diễn viên:</h3>
-            <v-textarea variant="outlined"></v-textarea>
-          </div>
-
-          <div>
-            <h3 class="text-lg font-bold mb-1">Tổng số tập:</h3>
-            <v-text-field variant="outlined"></v-text-field>
+            <div>
+              <h3 class="text-lg font-bold mb-1">Thời gian / tập:</h3>
+              <v-text-field v-model="time" variant="outlined"></v-text-field>
+            </div>
           </div>
         </div>
 
-        <div class="flex flex-col gap-3 w-[45%]">
-          <div>
-            <h3 class="text-lg font-bold mb-1">Ảnh thumbnail:</h3>
-            <img
-              class="w-[100px]"
-              src="https://img.hiephanhthienha.com/uploads/movies/su-tra-thu-cua-nguoi-thu-3-thumb.jpg"
-              alt=""
-            />
-          </div>
-
-          <div>
-            <h3 class="text-lg font-bold mb-1">Ảnh banner:</h3>
-            <img
-              class="w-[100px]"
-              src="https://img.hiephanhthienha.com/uploads/movies/su-tra-thu-cua-nguoi-thu-3-poster.jpg"
-              alt=""
-            />
-          </div>
-
-          <div>
-            <h3 class="text-lg font-bold mb-1">Nội dung:</h3>
-            <v-textarea variant="outlined"></v-textarea>
-          </div>
-
-          <div>
-            <h3 class="text-lg font-bold mb-1">Trạng thái:</h3>
-            <v-select :items="STATUS" variant="outlined"></v-select>
-          </div>
-
-          <div>
-            <h3 class="text-lg font-bold mb-1">Thời gian / tập:</h3>
-            <v-text-field variant="outlined"></v-text-field>
+        <div class="mt-6 grid grid-cols-2 gap-3">
+          <div
+            v-for="(item, index) in esp"
+            :key="index"
+            class="flex gap-4 mb-2 items-center"
+          >
+            <h3>
+              {{ `URL tập ${index + 1}: ` }}
+            </h3>
+            <v-text-field
+              v-model="espInfo[index]"
+              variant="outlined"
+            ></v-text-field>
           </div>
         </div>
-      </div>
 
-      <div class="mt-6 grid grid-cols-2 gap-3">
-        <div
-          v-for="(item, index) in episodes"
-          :key="index"
-          class="flex gap-4 mb-2 items-center"
-        >
-          <h3>{{ `URL tập ${index + 1}:` }}</h3>
-          <v-text-field variant="outlined"></v-text-field>
+        <div class="flex mt-6 gap-6">
+          <CommonButton
+            title="Cancel"
+            bg-color="grey"
+            @click="handleCancel"
+          ></CommonButton>
+          <CommonButton title="Create" @click="handleCreate"></CommonButton>
         </div>
-      </div>
-
-      <div class="flex mt-6 gap-6">
-        <CommonButton title="Cancel" bg-color="grey"></CommonButton>
-        <CommonButton title="Create"></CommonButton>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const MOVIE_TYPE = ['Series', 'Single']
-const COUNTRY = ['Âu mỹ', 'Hàn quốc', 'Trung quốc']
-const CATEGORY = [
-  'Tình cảm',
-  'Gia đình',
-  'Hài hước',
-  'Hành động',
-  'Học đường',
-  'Khoa học',
-  'Tâm lý',
-  'Viễn tưởng',
-  'Cổ trang',
-  'Kinh dị',
-]
-const STATUS = ['Chưa hoàn thành', 'Hoàn thành']
+import movieApi from '~/services/movie-api'
+import uploadImage from '~/services/upload-api'
 
-const episodes = ['link 1', 'link 2', 'link 3', 'link 1', 'link 2', 'link 3']
+const router = useRouter()
+const slug = computed(() => router.currentRoute.value.query.name)
+const movieDetail = ref()
+const movieName = ref()
+const originName = ref()
+const slugUrl = ref()
+const type = ref()
+const category = ref()
+const country = ref()
+const actor = ref()
+const episodeTotal = ref()
+const thumbUrl = ref()
+const posterUrl = ref()
+const content = ref()
+const status = ref()
+const time = ref()
+
+const esp = computed(() =>
+  episodeTotal.value ? Number(episodeTotal.value) : 1,
+)
+const espInfo = ref<any>({})
+const poster = ref()
+const thumb = ref()
+const isLoading = ref(false)
+
+const setMovieData = async () => {
+  const response = await movieApi.getMovieDetail(slug.value)
+  movieDetail.value = response
+  movieName.value = response.name
+  originName.value = response.origin_name
+  slugUrl.value = response.slug
+  type.value = response.type
+  country.value = response.country
+  category.value = response.category?.[0]
+  actor.value = response.actor?.join(', ')
+  episodeTotal.value = response.episode_total?.replace(' Tập', '')
+  thumbUrl.value = response.thumb_url
+  posterUrl.value = response.poster_url
+  content.value = response.content
+  status.value = response.status
+  time.value = response.time
+  response.episodes?.forEach((eps: any, index: any) => {
+    espInfo.value[index] = eps.link_embed
+  })
+}
+
+onMounted(async () => {
+  await setMovieData()
+})
+const MOVIE_TYPE = ['series', 'single']
+const COUNTRY = ['Âu Mỹ', 'Hàn Quốc', 'Trung Quốc']
+const CATEGORY = [
+  'Tình Cảm',
+  'Gia Đình',
+  'Hài Hước',
+  'Hành Động',
+  'Học Đường',
+  'Khoa Học',
+  'Tâm Lý',
+  'Viễn Tưởng',
+  'Cổ Trang',
+  'Kinh Dị',
+]
+const STATUS = ['ongoing', 'completed']
+
+const handleCancel = () => {
+  navigateTo('/movie')
+}
+
+const handleUploadImage = (name: string, file: any) => {
+  if (name == 'posterUrl') {
+    poster.value = file
+  } else {
+    thumb.value = file
+  }
+}
+
+const handleCreate = async () => {
+  const movieUpdate: any = {
+    name: movieName.value,
+    origin_name: originName.value,
+    slug: slugUrl.value,
+    type: type.value,
+    country: country.value,
+    category: [category.value],
+    actor: actor.value.split(', '),
+    episode_total: episodeTotal.value,
+    content: content.value,
+    status: status.value,
+    time: time.value,
+  }
+  router.push({
+    query: {
+      name: movieUpdate.slug,
+    },
+  })
+  isLoading.value = true
+  let thumbUrlUploaded
+  let posterUrlUploaded
+  if (thumb.value) {
+    thumbUrlUploaded = await uploadImage(thumb.value)
+    movieUpdate.thumb_url = thumbUrlUploaded
+  }
+  if (poster.value) {
+    posterUrlUploaded = await uploadImage(poster.value)
+    movieUpdate.poster_url = posterUrlUploaded
+  }
+
+  await movieApi.updateMovie(movieDetail.value._id, movieUpdate)
+
+  await setMovieData()
+  isLoading.value = false
+
+  console.log({
+    thumbUrlUploaded,
+    posterUrlUploaded,
+  })
+}
 </script>
 
 <style scoped lang="scss">
