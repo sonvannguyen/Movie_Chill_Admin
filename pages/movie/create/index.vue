@@ -3,7 +3,7 @@
     <CommonSidebar />
 
     <div class="ml-[330px] w-[1100px] mb-[200px]">
-      <CommonHeader title="Chỉnh sửa phim"></CommonHeader>
+      <CommonHeader title="Thêm phim mới"></CommonHeader>
 
       <CommonLoading v-if="isLoading"> </CommonLoading>
 
@@ -78,10 +78,8 @@
               <CommonUploadImage
                 name="thumbUrl"
                 label=""
-                :default-value="thumbUrl"
                 @upload-image="handleUploadImage"
               />
-              <!-- <img class="w-[100px]" :src="thumbUrl" alt="" /> -->
             </div>
 
             <div>
@@ -89,10 +87,8 @@
               <CommonUploadImage
                 name="posterUrl"
                 label=""
-                :default-value="posterUrl"
                 @upload-image="handleUploadImage"
               />
-              <!-- <img class="w-[100px]" :src="posterUrl" alt="" /> -->
             </div>
 
             <div>
@@ -142,7 +138,7 @@
             bg-color="grey"
             @click="handleCancel"
           ></CommonButton>
-          <CommonButton title="Update" @click="handleUpdate"></CommonButton>
+          <CommonButton title="Create" @click="handleCreate"></CommonButton>
         </div>
       </div>
     </div>
@@ -158,13 +154,13 @@ import {
   CATEGORY,
   STATUS,
   ALERT_TYPE,
+  URL_MOVIE_DETAILS,
 } from '~/constants/common'
 import { useAlertStore } from '~/stores/alert/alert-store'
 
 const router = useRouter()
 const alertStore = useAlertStore()
 
-const slug = computed(() => router.currentRoute.value.query.name)
 const movieDetail = ref()
 const movieName = ref()
 const originName = ref()
@@ -174,8 +170,6 @@ const category = ref()
 const country = ref()
 const actor = ref()
 const episodeTotal = ref()
-const thumbUrl = ref()
-const posterUrl = ref()
 const content = ref()
 const status = ref()
 const time = ref()
@@ -189,31 +183,6 @@ const poster = ref()
 const thumb = ref()
 const isLoading = ref(false)
 
-const setMovieData = async () => {
-  const response = await movieApi.getMovieDetail(slug.value)
-  movieDetail.value = response
-  movieName.value = response.name
-  originName.value = response.origin_name
-  slugUrl.value = response.slug
-  type.value = response.type
-  country.value = response.country
-  category.value = response.category?.[0]
-  actor.value = response.actor?.join(', ')
-  episodeTotal.value = response.episode_total?.replace(' Tập', '')
-  thumbUrl.value = response.thumb_url
-  posterUrl.value = response.poster_url
-  content.value = response.content
-  status.value = response.status
-  time.value = response.time
-  response.episodes?.forEach((eps: any, index: any) => {
-    espInfo.value[index] = eps.link_embed
-  })
-}
-
-onMounted(async () => {
-  await setMovieData()
-})
-
 const handleCancel = () => {
   navigateTo('/movie')
 }
@@ -226,8 +195,8 @@ const handleUploadImage = (name: string, file: any) => {
   }
 }
 
-const handleUpdate = async () => {
-  const movieUpdate: any = {
+const handleCreate = async () => {
+  const movieCreate: any = {
     name: movieName.value,
     origin_name: originName.value,
     slug: slugUrl.value,
@@ -239,39 +208,37 @@ const handleUpdate = async () => {
     content: content.value,
     status: status.value,
     time: time.value,
+    thumb_url: undefined,
+    poster_url: undefined,
   }
-  router.push({
-    query: {
-      name: movieUpdate.slug,
-    },
-  })
+
   isLoading.value = true
   let thumbUrlUploaded
   let posterUrlUploaded
   if (thumb.value) {
     thumbUrlUploaded = await uploadImage(thumb.value)
-    movieUpdate.thumb_url = thumbUrlUploaded
+    movieCreate.thumb_url = thumbUrlUploaded
   }
   if (poster.value) {
     posterUrlUploaded = await uploadImage(poster.value)
-    movieUpdate.poster_url = posterUrlUploaded
+    movieCreate.poster_url = posterUrlUploaded
   }
 
   const episodes: any = []
   Object.values(espInfo.value).forEach((espUrl, index) => {
-    if (index + 1 <= movieUpdate.episode_total) {
+    if (index + 1 <= movieCreate.episode_total) {
       episodes.push({
         slug: index + 1,
         link_embed: espUrl,
       })
     }
   })
-  movieUpdate.episodes = episodes
+  movieCreate.episodes = episodes
 
   // if not enough data
-  const fields = Object.keys(movieUpdate)
+  const fields = Object.keys(movieCreate)
   const fieldsError: string[] = []
-  Object.values(movieUpdate).forEach((item: any, index: number) => {
+  Object.values(movieCreate).forEach((item: any, index: number) => {
     if (!item || item?.includes(undefined)) {
       fieldsError.push(fields[index])
     }
@@ -283,20 +250,19 @@ const handleUpdate = async () => {
     return
   }
 
-  await movieApi.updateMovie(movieDetail.value._id, movieUpdate)
+  console.log(movieCreate)
+  console.log('Field value: ' + Object.values(movieCreate))
+  console.log(espInfo.value)
 
-  await setMovieData()
+  await movieApi.createMovie(movieCreate)
+
   isLoading.value = false
-
   alertStore.setAlertMessage({
-    message: 'Cập nhật phim thành công',
+    message: 'Thêm phim mới thành công',
     type: ALERT_TYPE.SUCCESS,
   })
 
-  console.log({
-    thumbUrlUploaded,
-    posterUrlUploaded,
-  })
+  window.open(`${URL_MOVIE_DETAILS}/${movieCreate.slug}`)
 }
 </script>
 

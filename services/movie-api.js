@@ -35,6 +35,24 @@ const movieApi = {
       handleError(error)
     }
   },
+  createMovie: async (movieData) => {
+    try {
+      const configHeader = getConfigHeader()
+      const res = await axios.post(`${BASE_URL_MOVIE}/create`, movieData)
+      return res.data
+    } catch (error) {
+      handleError(error)
+    }
+  },
+  deleteMovie: async (movieId) => {
+    try {
+      const configHeader = getConfigHeader()
+      const res = await axios.delete(`${BASE_URL_MOVIE}/delete/${movieId}`)
+      return res.data
+    } catch (error) {
+      handleError(error)
+    }
+  },
   //   getMoviesByGroupName: async (movieGroupName) => {
   //     try {
   //       const res = await axios.get(`${BASE_URL_MOVIEGR}/${movieGroupName}`)

@@ -1,6 +1,4 @@
 <template>
-</template>
-<!-- <template>
   <v-snackbar
     v-model="snackbar"
     :timeout="3000"
@@ -30,7 +28,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-// import { ALERT_TYPE } from '~/constants/common'
+import { ALERT_TYPE } from '~/constants/common'
 import { useAlertStore } from '~/stores/alert/alert-store'
 
 const alertStore = useAlertStore()
@@ -47,4 +45,4 @@ watch(alertMessage, () => {
 function dismissSnackbar() {
   snackbar.value = false
 }
-</script> -->
+</script>
