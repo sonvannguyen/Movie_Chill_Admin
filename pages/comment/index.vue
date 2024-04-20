@@ -3,13 +3,13 @@
     <CommonSidebar />
 
     <div class="ml-[330px] w-[1100px]">
-      <CommonHeader title="Users"></CommonHeader>
+      <CommonHeader title="Comments"></CommonHeader>
 
       <div class="flex w-[500px] gap-6">
         <v-text-field
           v-model="userSearch"
           variant="outlined"
-          placeholder="Tìm kiếm user..."
+          placeholder="Tìm kiếm theo user..."
           class="w-[400px] rounded-xl"
         ></v-text-field>
         <CommonButton title="Tìm kiếm" @click="handleSearchUser"></CommonButton>
@@ -20,41 +20,51 @@
         ></CommonButton>
       </div>
 
-      <UserList :listData="listUserSearch"></UserList>
+      <CommentList :listData="listCommentByUser"></CommentList>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const listUser = ref([
+const listComment = ref([
   {
+    commentContent: 'phim hay quas',
     username: 'Son van nguyen',
     avatar:
       'https://cdn.cosmicjs.com/5bcffc50-eaed-11ee-b074-b5c8fe3ef189-galaxy-1.png',
-    total_movie_watched: 43,
-    total_movie_bookmark: 12,
+    movie_name: 'Galaxy 1',
+    thumbnail_url:
+      'https://img.hiephanhthienha.com/uploads/movies/su-tra-thu-cua-nguoi-thu-3-thumb.jpg',
+    totalReport: 2,
     updatedAt: '2024-04-08T22:35:43.921+00:00',
   },
   {
-    username: 'User test 1',
+    commentContent: 'phim oke day 2',
+    username: 'User testtt',
     avatar:
       'https://cdn.cosmicjs.com/5bcffc50-eaed-11ee-b074-b5c8fe3ef189-galaxy-1.png',
-    total_movie_watched: 10,
-    total_movie_bookmark: 11,
+    movie_name: 'Black Panther 2',
+    thumbnail_url:
+      'https://img.hiephanhthienha.com/uploads/movies/chien-binh-bao-den-2-wakanda-bat-diet-thumb.jpg',
+    totalReport: 5,
     updatedAt: '2024-04-08T22:35:43.921+00:00',
   },
+
   {
-    username: 'User test 2',
+    commentContent: 'phim oke day',
+    username: 'User testtt',
     avatar:
       'https://cdn.cosmicjs.com/5bcffc50-eaed-11ee-b074-b5c8fe3ef189-galaxy-1.png',
-    total_movie_watched: 2,
-    total_movie_bookmark: 1,
+    movie_name: 'Black Panther 2',
+    thumbnail_url:
+      'https://img.hiephanhthienha.com/uploads/movies/chien-binh-bao-den-2-wakanda-bat-diet-thumb.jpg',
+    totalReport: 10,
     updatedAt: '2024-04-08T22:35:43.921+00:00',
   },
 ])
 
 const userSearch = ref()
-const listUserSearch = ref<any>(listUser.value)
+const listCommentByUser = ref<any>(listComment.value)
 
 // onMounted(async () => {
 //   const response = await movieApi.getAllMovie()
@@ -66,24 +76,25 @@ const listUserSearch = ref<any>(listUser.value)
 
 const handleSearchUser = () => {
   if (!userSearch.value) {
-    listUserSearch.value = listUser.value
+    listCommentByUser.value = listComment.value
     return
   }
 
   const resultSearch: any = []
-  listUser.value.forEach((user: any) => {
-    if (user.username.toLowerCase().includes(userSearch.value.toLowerCase())) {
-      resultSearch.push(user)
+  listComment.value.forEach((comment: any) => {
+    if (
+      comment.username.toLowerCase().includes(userSearch.value.toLowerCase())
+    ) {
+      resultSearch.push(comment)
     }
   })
 
-  console.log({ resultSearch })
-  listUserSearch.value = resultSearch
+  listCommentByUser.value = resultSearch
 }
 
 const handleResetSearch = () => {
   userSearch.value = ''
-  listUserSearch.value = listUser.value
+  listCommentByUser.value = listComment.value
 }
 </script>
 

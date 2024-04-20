@@ -17,6 +17,11 @@
             title="Tìm kiếm"
             @click="handleSearchMovie"
           ></CommonButton>
+          <CommonButton
+            title="Reset"
+            bgColor="#cccc"
+            @click="handleResetSearch"
+          ></CommonButton>
         </div>
 
         <div>
@@ -81,10 +86,11 @@ const handleSearchMovie = () => {
     }
   })
   listMovieSearch.value = resultSearch
+}
 
-  console.log(movieSearch.value)
-  console.log('slug: ', convertToSlug(movieSearch.value).toLowerCase())
-  console.log(resultSearch)
+const handleResetSearch = () => {
+  movieSearch.value = ''
+  listMovieSearch.value = listMovie.value
 }
 </script>
 

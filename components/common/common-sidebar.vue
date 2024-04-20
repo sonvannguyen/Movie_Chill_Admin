@@ -49,14 +49,21 @@
 </template>
 
 <script setup lang="ts">
-import { DASHBOARD, MOVIE, NOTIFICATION, USER } from '~/constants/routes'
+import {
+  DASHBOARD,
+  MOVIE,
+  NOTIFICATION,
+  COMMENT,
+  USER,
+} from '~/constants/routes'
 
 const router = useRouter()
 const data = [
   { icon: 'mdi-poll', text: 'Dashboard', path: DASHBOARD },
   { icon: 'mdi-movie', text: 'Quản lý phim', path: MOVIE },
   { icon: 'mdi-bell', text: 'Quản lý thông báo', path: NOTIFICATION },
-  { icon: 'mdi-account', text: 'Quản lý users', path: USER },
+  { icon: 'mdi-account', text: 'Quản lý user', path: USER },
+  { icon: 'mdi-chat', text: 'Quản lý bình luận', path: COMMENT },
   // { icon: 'mdi-home-outline', text: 'Services' },
   // { icon: 'mdi-map-marker-outline', text: 'Location' },
   // { icon: 'mdi-cogs', text: 'Settings' },
