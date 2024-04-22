@@ -160,9 +160,11 @@ import {
   ALERT_TYPE,
 } from '~/constants/common'
 import { useAlertStore } from '~/stores/alert/alert-store'
+import { useMovieStore } from '~/stores/movie/movie-store'
 
 const router = useRouter()
 const alertStore = useAlertStore()
+const movieStore = useMovieStore()
 
 const slug = computed(() => router.currentRoute.value.query.name)
 const movieDetail = ref()
@@ -293,10 +295,8 @@ const handleUpdate = async () => {
     type: ALERT_TYPE.SUCCESS,
   })
 
-  console.log({
-    thumbUrlUploaded,
-    posterUrlUploaded,
-  })
+  await movieStore.getAllMovie()
+  navigateTo('/movie')
 }
 </script>
 

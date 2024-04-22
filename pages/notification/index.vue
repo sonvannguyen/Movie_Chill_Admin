@@ -13,42 +13,27 @@
         ></CommonButton>
       </div>
 
-      <NotificationList :listData="listNoti"></NotificationList>
+      <CommonLoading v-if="isLoading"></CommonLoading>
+      <NotificationList v-else :listData="notifications"></NotificationList>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import movieApi from '~/services/movie-api'
+import { useNotificationStore } from '~/stores/notification/notification-store'
+import { storeToRefs } from 'pinia'
 
-const listNoti = [
-  {
-    content: 'Cập nhật hệ thống 1',
-    type: 'USER',
-    updatedAt: '2024-04-08T22:35:43.921+00:00',
-  },
-  {
-    content: 'Cập nhật hệ thống 2',
-    type: 'USER',
-    updatedAt: '2024-04-09T22:35:43.921+00:00',
-  },
-  {
-    content: 'Cập nhật hệ thống 3',
-    type: 'ALL',
-    updatedAt: '2024-04-10T22:35:43.921+00:00',
-  },
-]
-// const listMovie = ref<any>([])
-// const listMovieSearch = ref<any>([])
-// const movieSearch = ref<any>()
+const notificationStore = useNotificationStore()
+const { notifications } = storeToRefs(notificationStore)
+const isLoading = ref(false)
 
-// onMounted(async () => {
-//   const response = await movieApi.getAllMovie()
-//   if (response?.moviesData?.length) {
-//     listMovie.value = response.moviesData
-//     listMovieSearch.value = response.moviesData
-//   }
-// })
+onMounted(async () => {
+  if (!notifications.value?.length) {
+    isLoading.value = true
+    await notificationStore.getNotifications()
+    isLoading.value = false
+  }
+})
 
 const handleCreateNoti = () => {
   navigateTo('/notification/create')

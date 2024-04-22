@@ -33,24 +33,30 @@
         </div>
       </div>
 
-      <MovieCrud :listData="listMovieSearch"></MovieCrud>
+      <CommonLoading v-if="isLoading"></CommonLoading>
+      <MovieCrud v-else :listData="listMovieSearch"></MovieCrud>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import movieApi from '~/services/movie-api'
+import { useMovieStore } from '~/stores/movie/movie-store'
+import { storeToRefs } from 'pinia'
 
-const listMovie = ref<any>([])
+const movieStore = useMovieStore()
+const { listMovie } = storeToRefs(movieStore)
+
 const listMovieSearch = ref<any>([])
 const movieSearch = ref<any>()
+const isLoading = ref(false)
 
 onMounted(async () => {
-  const response = await movieApi.getAllMovie()
-  if (response?.moviesData?.length) {
-    listMovie.value = response.moviesData
-    listMovieSearch.value = response.moviesData
+  if (!listMovie.value?.length) {
+    isLoading.value = true
+    await movieStore.getAllMovie()
+    isLoading.value = false
   }
+  listMovieSearch.value = listMovie.value
 })
 
 const handleCreateMovie = () => {

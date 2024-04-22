@@ -20,7 +20,7 @@
             <div class="dialog-delete">
               <h3 class="text-xl text-center">
                 {{
-                  `Bạn có chắc chắn muốn xóa thông báo "${data[indexItemDelete].content}" ?`
+                  `Bạn có chắc chắn muốn xóa thông báo "${data[indexItemDelete]?.content ?? ''}" ?`
                 }}
               </h3>
 
@@ -56,13 +56,12 @@
 </template>
 
 <script setup lang="ts">
-import { URL_MOVIE_DETAILS } from '~/constants/common'
-import movieApi from '~/services/movie-api'
 import { useAlertStore } from '~/stores/alert/alert-store'
 import { ALERT_TYPE } from '~/constants/common'
 import dayjs from 'dayjs'
+import { useNotificationStore } from '~/stores/notification/notification-store'
 
-const router = useRouter()
+const notificationStore = useNotificationStore()
 const alertStore = useAlertStore()
 
 const props = defineProps({
@@ -109,7 +108,7 @@ async function deleteItemConfirm() {
   dialogDelete.value = false
   data.value.splice(indexItemDelete.value, 1)
   isLoading.value = true
-  await movieApi.deleteMovie(idNotiDelete.value)
+  await notificationStore.deleteNotification(idNotiDelete.value)
   isLoading.value = false
   alertStore.setAlertMessage({
     message: 'Đã xóa thông báo thành công',
@@ -121,9 +120,6 @@ function closeDelete() {
   dialogDelete.value = false
 }
 
-function goToDetail(slug: string) {
-  window.open(`${URL_MOVIE_DETAILS}/${slug}`)
-}
 </script>
 
 <style scoped lang="scss">

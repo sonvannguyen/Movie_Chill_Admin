@@ -17,7 +17,7 @@
             <div class="dialog-delete">
               <h3 class="text-xl text-center">
                 {{
-                  `Bạn có chắc chắn muốn xóa phim "${data[indexItemDelete].name}" ?`
+                  `Bạn có chắc chắn muốn xóa phim "${data[indexItemDelete]?.name ?? ''}" ?`
                 }}
               </h3>
 

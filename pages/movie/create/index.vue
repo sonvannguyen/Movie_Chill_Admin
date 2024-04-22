@@ -157,8 +157,10 @@ import {
   URL_MOVIE_DETAILS,
 } from '~/constants/common'
 import { useAlertStore } from '~/stores/alert/alert-store'
+import { useMovieStore } from '~/stores/movie/movie-store'
 
 const router = useRouter()
+const movieStore = useMovieStore()
 const alertStore = useAlertStore()
 
 const movieDetail = ref()
@@ -262,7 +264,8 @@ const handleCreate = async () => {
     type: ALERT_TYPE.SUCCESS,
   })
 
-  window.open(`${URL_MOVIE_DETAILS}/${movieCreate.slug}`)
+  await movieStore.getAllMovie()
+  navigateTo('/movie')
 }
 </script>
 

@@ -17,7 +17,12 @@
 
             <div>
               <h3 class="text-lg font-bold mb-1">Target:</h3>
-              <v-text-field v-model="type" :readonly="true" default="ALL" variant="outlined"></v-text-field>
+              <v-text-field
+                v-model="type"
+                :readonly="true"
+                default="ALL"
+                variant="outlined"
+              ></v-text-field>
             </div>
           </div>
         </div>
@@ -40,13 +45,14 @@
 </template>
 
 <script setup lang="ts">
-import movieApi from '~/services/movie-api'
 import { ALERT_TYPE } from '~/constants/common'
 import { useAlertStore } from '~/stores/alert/alert-store'
+import { useNotificationStore } from '~/stores/notification/notification-store'
+const notificationStore = useNotificationStore()
 
 const alertStore = useAlertStore()
 const content = ref()
-const type = ref("ALL")
+const type = ref('ALL')
 const errorMessage = ref()
 const isLoading = ref(false)
 
@@ -77,13 +83,16 @@ const handleCreate = async () => {
     return
   }
 
-  //   await movieApi.createMovie(movieCreate)
+  await notificationStore.createNotification(notiCreate.content)
 
   isLoading.value = false
   alertStore.setAlertMessage({
     message: 'Thêm thông báo mới thành công',
     type: ALERT_TYPE.SUCCESS,
   })
+
+  await notificationStore.getNotifications()
+  navigateTo('/notification')
 }
 </script>
 
