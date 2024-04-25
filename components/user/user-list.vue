@@ -17,7 +17,9 @@
             <div class="dialog-delete">
               <h3 class="text-xl text-center">
                 {{
-                  `Bạn có chắc chắn muốn xóa user "${data[indexItemDelete].username}" ?`
+                  `Bạn có chắc chắn muốn xóa user "${
+                    data[indexItemDelete].username ?? ''
+                  }" ?`
                 }}
               </h3>
 
@@ -63,13 +65,14 @@
 </template>
 
 <script setup lang="ts">
-import movieApi from '~/services/movie-api'
 import { useAlertStore } from '~/stores/alert/alert-store'
 import { ALERT_TYPE } from '~/constants/common'
 import dayjs from 'dayjs'
+import { useUserStore } from '~/stores/user/user-store'
 
 const router = useRouter()
 const alertStore = useAlertStore()
+const userStore = useUserStore()
 
 const props = defineProps({
   listData: {
@@ -121,7 +124,7 @@ async function deleteItemConfirm() {
   dialogDelete.value = false
   data.value.splice(indexItemDelete.value, 1)
   isLoading.value = true
-  // await movieApi.deleteMovie(idUserDelete.value)
+  await userStore.deleteUser(idUserDelete.value)
   isLoading.value = false
   alertStore.setAlertMessage({
     message: 'Đã xóa user thành công',

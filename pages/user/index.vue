@@ -20,49 +20,31 @@
         ></CommonButton>
       </div>
 
-      <UserList :listData="listUserSearch"></UserList>
+      <CommonLoading v-if="isLoading"></CommonLoading>
+      <UserList v-else :listData="listUserSearch"></UserList>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const listUser = ref([
-  {
-    username: 'Son van nguyen',
-    avatar:
-      'https://cdn.cosmicjs.com/5bcffc50-eaed-11ee-b074-b5c8fe3ef189-galaxy-1.png',
-    total_movie_watched: 43,
-    total_movie_bookmark: 12,
-    updatedAt: '2024-04-08T22:35:43.921+00:00',
-  },
-  {
-    username: 'User test 1',
-    avatar:
-      'https://cdn.cosmicjs.com/5bcffc50-eaed-11ee-b074-b5c8fe3ef189-galaxy-1.png',
-    total_movie_watched: 10,
-    total_movie_bookmark: 11,
-    updatedAt: '2024-04-08T22:35:43.921+00:00',
-  },
-  {
-    username: 'User test 2',
-    avatar:
-      'https://cdn.cosmicjs.com/5bcffc50-eaed-11ee-b074-b5c8fe3ef189-galaxy-1.png',
-    total_movie_watched: 2,
-    total_movie_bookmark: 1,
-    updatedAt: '2024-04-08T22:35:43.921+00:00',
-  },
-])
+import { useUserStore } from '~/stores/user/user-store'
+import { storeToRefs } from 'pinia'
+
+const userStore = useUserStore()
+const { listUser } = storeToRefs(userStore)
+const isLoading = ref(false)
 
 const userSearch = ref()
 const listUserSearch = ref<any>(listUser.value)
 
-// onMounted(async () => {
-//   const response = await movieApi.getAllMovie()
-//   if (response?.moviesData?.length) {
-//     listMovie.value = response.moviesData
-//     listMovieSearch.value = response.moviesData
-//   }
-// })
+onMounted(async () => {
+  if (!listUser.value?.length) {
+    isLoading.value = true
+    await userStore.getAllUser()
+    listUserSearch.value = listUser.value
+    isLoading.value = false
+  }
+})
 
 const handleSearchUser = () => {
   if (!userSearch.value) {

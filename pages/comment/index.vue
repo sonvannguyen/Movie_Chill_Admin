@@ -20,59 +20,31 @@
         ></CommonButton>
       </div>
 
-      <CommentList :listData="listCommentByUser"></CommentList>
+      <CommonLoading v-if="isLoading"></CommonLoading>
+      <CommentList v-else :listData="listCommentByUser"></CommentList>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const listComment = ref([
-  {
-    commentContent: 'phim hay quas',
-    username: 'Son van nguyen',
-    avatar:
-      'https://cdn.cosmicjs.com/5bcffc50-eaed-11ee-b074-b5c8fe3ef189-galaxy-1.png',
-    movie_name: 'Galaxy 1',
-    thumbnail_url:
-      'https://img.hiephanhthienha.com/uploads/movies/su-tra-thu-cua-nguoi-thu-3-thumb.jpg',
-    totalReport: 2,
-    updatedAt: '2024-04-08T22:35:43.921+00:00',
-  },
-  {
-    commentContent: 'phim oke day 2',
-    username: 'User testtt',
-    avatar:
-      'https://cdn.cosmicjs.com/5bcffc50-eaed-11ee-b074-b5c8fe3ef189-galaxy-1.png',
-    movie_name: 'Black Panther 2',
-    thumbnail_url:
-      'https://img.hiephanhthienha.com/uploads/movies/chien-binh-bao-den-2-wakanda-bat-diet-thumb.jpg',
-    totalReport: 5,
-    updatedAt: '2024-04-08T22:35:43.921+00:00',
-  },
+import { useCommentStore } from '~/stores/comment/comment-store';
+import { storeToRefs } from 'pinia'
 
-  {
-    commentContent: 'phim oke day',
-    username: 'User testtt',
-    avatar:
-      'https://cdn.cosmicjs.com/5bcffc50-eaed-11ee-b074-b5c8fe3ef189-galaxy-1.png',
-    movie_name: 'Black Panther 2',
-    thumbnail_url:
-      'https://img.hiephanhthienha.com/uploads/movies/chien-binh-bao-den-2-wakanda-bat-diet-thumb.jpg',
-    totalReport: 10,
-    updatedAt: '2024-04-08T22:35:43.921+00:00',
-  },
-])
+const commentStore = useCommentStore()
+const { listComment } = storeToRefs(commentStore)
+const isLoading = ref(false)
 
 const userSearch = ref()
 const listCommentByUser = ref<any>(listComment.value)
 
-// onMounted(async () => {
-//   const response = await movieApi.getAllMovie()
-//   if (response?.moviesData?.length) {
-//     listMovie.value = response.moviesData
-//     listMovieSearch.value = response.moviesData
-//   }
-// })
+onMounted(async () => {
+  if (!listComment.value?.length) {
+    isLoading.value = true
+    await commentStore.getCommentsReport()
+    listCommentByUser.value = listComment.value
+    isLoading.value = false
+  }
+})
 
 const handleSearchUser = () => {
   if (!userSearch.value) {
