@@ -53,6 +53,12 @@
         </v-toolbar>
       </template>
 
+      <template v-slot:item.commentContent="{ item }">
+        <h1 class="cursor-pointer icon" @click="goToDetail(item?.movie_slug)">
+          {{ item.commentContent }}
+        </h1>
+      </template>
+
       <template v-slot:item.username="{ item }">
         <div class="py-3 flex items-center gap-2">
           <img
@@ -67,7 +73,9 @@
       <template v-slot:item.movie_name="{ item }">
         <div class="py-3 flex items-center gap-2">
           <img class="h-[60px] w-[60px]" :src="item.thumbnail_url" alt="" />
-          <h3>{{ item.movie_name }}</h3>
+          <h3 class="cursor-pointer icon" @click="goToDetail(item?.movie_slug)">
+            {{ item.movie_name }}
+          </h3>
         </div>
       </template>
 
@@ -99,9 +107,9 @@
 </template>
 
 <script setup lang="ts">
-import movieApi from '~/services/movie-api'
+import userApi from '~/services/user-api'
 import { useAlertStore } from '~/stores/alert/alert-store'
-import { ALERT_TYPE } from '~/constants/common'
+import { ALERT_TYPE, URL_MOVIE_WATCH } from '~/constants/common'
 import dayjs from 'dayjs'
 
 const router = useRouter()
@@ -157,11 +165,11 @@ watch(
 function deleteItem(item: any, type: string) {
   if (type == 'comment') {
     indexItemDelete.value = data.value.indexOf(item)
-    idCommentDelete.value = item._id // todo: check id
+    idCommentDelete.value = item.commentId 
     dialogCommentDelete.value = true
   } else if (type == 'user') {
     indexItemDelete.value = data.value.indexOf(item)
-    idCommentDelete.value = item._id // todo: check id
+    idUserDelete.value = item.userId 
     dialogUserDelete.value = true
   }
 }
@@ -171,7 +179,7 @@ async function deleteItemConfirm(type: string) {
     dialogCommentDelete.value = false
     data.value.splice(indexItemDelete.value, 1)
     isLoading.value = true
-    // await movieApi.deleteMovie(idCommentDelete.value)
+    await userApi.deleteComment(idCommentDelete.value)
     isLoading.value = false
     alertStore.setAlertMessage({
       message: 'Đã xóa comment thành công',
@@ -181,7 +189,8 @@ async function deleteItemConfirm(type: string) {
     dialogUserDelete.value = false
     data.value.splice(indexItemDelete.value, 1)
     isLoading.value = true
-    // await movieApi.deleteMovie(idCommentDelete.value)
+    await userApi.deleteComment(idCommentDelete.value)
+    await userApi.deleteUser(idUserDelete.value)
     isLoading.value = false
     alertStore.setAlertMessage({
       message: 'Đã xóa user thành công',
@@ -193,6 +202,10 @@ async function deleteItemConfirm(type: string) {
 function closeDelete() {
   dialogUserDelete.value = false
   dialogCommentDelete.value = false
+}
+
+function goToDetail(slug: string) {
+  window.open(`${URL_MOVIE_WATCH}/${slug}/episode/1`)
 }
 </script>
 

@@ -12,6 +12,14 @@ const adminApi = {
       handleError(error)
     }
   },
+  getSystemStats: async () => {
+    try {
+      const res = await axios.get(`${BASE_URL_ADMIN}/system-stats`)
+      return res.data
+    } catch (error) {
+      handleError(error)
+    }
+  },
 }
 
 const handleError = (err) => {

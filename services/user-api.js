@@ -19,6 +19,13 @@ const userApi = {
       handleError(error)
     }
   },
+  deleteComment: async (commentId) => {
+    try {
+      await axios.delete(`${BASE_URL_USER}/delete/comment/${commentId}`)
+    } catch (error) {
+      handleError(error)
+    }
+  },
 }
 
 const handleError = (err) => {

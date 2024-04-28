@@ -5,7 +5,7 @@
     <v-data-table
       :headers="headers"
       :items="data"
-      :sort-by="[{ key: 'updatedAt', order: 'desc' }]"
+      :sort-by="[{ key: 'total_movie_watched', order: 'desc' }]"
       :hover="true"
     >
       <template v-slot:top>
