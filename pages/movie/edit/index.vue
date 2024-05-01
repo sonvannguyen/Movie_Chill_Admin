@@ -298,6 +298,12 @@ const handleUpdate = async () => {
   await movieStore.getAllMovie()
   navigateTo('/movie')
 }
+
+onBeforeMount(() => {
+  if(!localStorage.getItem("movie_access_token")){
+    navigateTo("/login")
+  }
+})
 </script>
 
 <style scoped lang="scss">

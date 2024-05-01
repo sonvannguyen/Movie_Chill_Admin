@@ -37,6 +37,12 @@ const isLoading = ref(false)
 const userSearch = ref()
 const listUserSearch = ref<any>(listUser.value)
 
+onBeforeMount(() => {
+  if(!localStorage.getItem("movie_access_token")){
+    navigateTo("/login")
+  }
+})
+
 onMounted(async () => {
   if (!listUser.value?.length) {
     isLoading.value = true

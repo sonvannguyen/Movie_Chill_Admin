@@ -6,7 +6,8 @@ const BASE_URL_NOTIFICATION = 'http://localhost:5000/notification/'
 const notificaitonApi = {
   getAllNotification: async () => {
     try {
-      const res = await axios.get(`${BASE_URL_NOTIFICATION}/history`)
+      const configHeader = getConfigHeader();
+      const res = await axios.get(`${BASE_URL_NOTIFICATION}/history`, configHeader)
       return res.data
     } catch (error) {
       handleError(error)
@@ -14,16 +15,18 @@ const notificaitonApi = {
   },
   deleteNotification: async (notificationId) => {
     try {
-      await axios.delete(`${BASE_URL_NOTIFICATION}/delete/${notificationId}`)
+      const configHeader = getConfigHeader();
+      await axios.delete(`${BASE_URL_NOTIFICATION}/delete/${notificationId}`, configHeader)
     } catch (error) {
       handleError(error)
     }
   },
   createNotification: async (content) => {
     try {
+      const configHeader = getConfigHeader();
       await axios.post(`${BASE_URL_NOTIFICATION}/create`, {
         content,
-      })
+      }, configHeader)
     } catch (error) {
       handleError(error)
     }

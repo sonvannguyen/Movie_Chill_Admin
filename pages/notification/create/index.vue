@@ -94,6 +94,12 @@ const handleCreate = async () => {
   await notificationStore.getNotifications()
   navigateTo('/notification')
 }
+
+onBeforeMount(() => {
+  if(!localStorage.getItem("movie_access_token")){
+    navigateTo("/login")
+  }
+})
 </script>
 
 <style scoped lang="scss">

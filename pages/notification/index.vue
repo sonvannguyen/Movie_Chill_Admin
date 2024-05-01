@@ -27,6 +27,12 @@ const notificationStore = useNotificationStore()
 const { notifications } = storeToRefs(notificationStore)
 const isLoading = ref(false)
 
+onBeforeMount(() => {
+  if(!localStorage.getItem("movie_access_token")){
+    navigateTo("/login")
+  }
+})
+
 onMounted(async () => {
   if (!notifications.value?.length) {
     isLoading.value = true

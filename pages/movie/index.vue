@@ -50,6 +50,12 @@ const listMovieSearch = ref<any>([])
 const movieSearch = ref<any>()
 const isLoading = ref(false)
 
+onBeforeMount(() => {
+  if(!localStorage.getItem("movie_access_token")){
+    navigateTo("/login")
+  }
+})
+
 onMounted(async () => {
   if (!listMovie.value?.length) {
     isLoading.value = true

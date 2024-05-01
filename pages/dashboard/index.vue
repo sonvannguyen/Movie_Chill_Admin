@@ -134,7 +134,11 @@ const { systemStats } = storeToRefs(dashboardStore)
 const isLoading = ref(false)
 
 const todayStats: any = computed(
-  () => systemStats.value[systemStats.value.length - 1],
+  () => {
+    if(systemStats.value?.length){
+      return systemStats.value[systemStats.value.length - 1]
+    }
+  },
 )
 const quantityChange = computed(() => {
   const curr: any = systemStats.value[systemStats.value.length - 1]
@@ -145,6 +149,12 @@ const quantityChange = computed(() => {
     user: curr?.total_user - (prev?.total_user ?? curr?.total_user),
     view: curr?.total_view - (prev?.total_view ?? curr?.total_view),
     comment: curr?.total_comment - (prev?.total_comment ?? curr?.total_comment),
+  }
+})
+
+onBeforeMount(() => {
+  if(!localStorage.getItem("movie_access_token")){
+    navigateTo("/login")
   }
 })
 

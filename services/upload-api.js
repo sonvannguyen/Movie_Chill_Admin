@@ -7,7 +7,7 @@ const uploadImage = async (fileToUpload) => {
   try {
     const configHeader = getConfigHeader()
 
-    const res = await axios.post(API_URL, fileToUpload)
+    const res = await axios.post(API_URL, fileToUpload, configHeader)
     const urlImageCloud = res.data.secure_url
     return urlImageCloud
   } catch (err) {

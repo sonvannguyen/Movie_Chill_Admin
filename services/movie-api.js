@@ -7,7 +7,8 @@ const BASE_URL_MOVIE = 'http://localhost:5000/movie'
 const movieApi = {
   getAllMovie: async () => {
     try {
-      const res = await axios.get(`${BASE_URL_MOVIE}`)
+      const configHeader = getConfigHeader()
+      const res = await axios.get(`${BASE_URL_MOVIE}`, configHeader)
       return res.data
     } catch (error) {
       handleError(error)
@@ -15,7 +16,8 @@ const movieApi = {
   },
   getMovieDetail: async (movieSlug) => {
     try {
-      const res = await axios.get(`${BASE_URL_MOVIE}/detail/${movieSlug}`)
+      const configHeader = getConfigHeader()
+      const res = await axios.get(`${BASE_URL_MOVIE}/detail/${movieSlug}`, configHeader)
       return {
         ...res.data?.movie,
       }
@@ -29,6 +31,7 @@ const movieApi = {
       const res = await axios.put(
         `${BASE_URL_MOVIE}/update/${movieId}`,
         movieData,
+        configHeader
       )
       return res.data
     } catch (error) {
@@ -38,7 +41,7 @@ const movieApi = {
   createMovie: async (movieData) => {
     try {
       const configHeader = getConfigHeader()
-      const res = await axios.post(`${BASE_URL_MOVIE}/create`, movieData)
+      const res = await axios.post(`${BASE_URL_MOVIE}/create`, movieData, configHeader)
       return res.data
     } catch (error) {
       handleError(error)
@@ -47,80 +50,12 @@ const movieApi = {
   deleteMovie: async (movieId) => {
     try {
       const configHeader = getConfigHeader()
-      const res = await axios.delete(`${BASE_URL_MOVIE}/delete/${movieId}`)
+      const res = await axios.delete(`${BASE_URL_MOVIE}/delete/${movieId}`, configHeader)
       return res.data
     } catch (error) {
       handleError(error)
     }
   },
-  //   getMoviesByGroupName: async (movieGroupName) => {
-  //     try {
-  //       const res = await axios.get(`${BASE_URL_MOVIEGR}/${movieGroupName}`)
-  //       return res.data
-  //     } catch (error) {
-  //       handleError(error)
-  //     }
-  //   },
-  //   searchMovie: async ({ movieName, page }) => {
-  //     try {
-  //       const res = await axios.get(
-  //         `${BASE_URL_MOVIE}/search?movieName=${movieName}&page=${page}`,
-  //       )
-  //       return res.data
-  //     } catch (error) {
-  //       handleError(error)
-  //     }
-  //   },
-  //   filterMovie: async ({ search, page }) => {
-  //     try {
-  //       let res = {}
-  //       if (search.includes('page=')) {
-  //         const newSearch = search.replace(/page=\d+/, 'page=')
-  //         res = await axios.get(`${BASE_URL_MOVIE}/filter${newSearch}${page}`)
-  //       } else {
-  //         res = await axios.get(`${BASE_URL_MOVIE}/filter${search}`)
-  //       }
-  //       return res.data
-  //     } catch (error) {
-  //       handleError(error)
-  //     }
-  //   },
-  //   getMovieRecommend: async (filter) => {
-  //     try {
-  //       const { type, category, country } = filter
-  //       const res = await axios.get(
-  //         `${BASE_URL_MOVIE}/filter?type=${type}&category=${category}&country=${country}`,
-  //       )
-  //       return res.data
-  //     } catch (error) {
-  //       handleError(error)
-  //     }
-  //   },
-  //   createNewComment: async (commentData) => {
-  //     try {
-  //       const configHeader = getConfigHeader()
-  //       const res = await axios.post(
-  //         `${BASE_URL_MOVIE}/create/comment`,
-  //         commentData,
-  //         configHeader,
-  //       )
-  //       return res.data
-  //     } catch (error) {
-  //       handleError(error)
-  //     }
-  //   },
-  //   deleteComment: async ({ movieId, commentId }) => {
-  //     try {
-  //       const configHeader = getConfigHeader()
-  //       const res = await axios.delete(
-  //         `${BASE_URL_MOVIE}/${movieId}/comment/${commentId}`,
-  //         configHeader,
-  //       )
-  //       return res.data
-  //     } catch (error) {
-  //       handleError(error)
-  //     }
-  //   },
 }
 
 const handleError = (err) => {
