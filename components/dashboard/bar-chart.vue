@@ -50,7 +50,7 @@ onMounted(() => {
   chart.value = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: props.data.map((item: any) => item.stats_time),
+      labels: props.data.map((item: any) => item.stats_time.slice(0, -5)),
       datasets: [
         {
           data: props.data.map((item: any) => item.total_user),

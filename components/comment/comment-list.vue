@@ -17,7 +17,7 @@
             <div class="dialog-delete">
               <h3 class="text-xl text-center">
                 {{
-                  `Bạn có chắc chắn muốn xóa comment "${data[indexItemDelete].commentContent}" ?`
+                  `Bạn có chắc chắn muốn xóa comment "${data[indexItemDelete]?.commentContent ?? ''}" ?`
                 }}
               </h3>
 
@@ -36,7 +36,7 @@
             <div class="dialog-delete">
               <h3 class="text-xl text-center">
                 {{
-                  `Bạn có chắc chắn muốn xóa user "${data[indexItemDelete].username}" ?`
+                  `Bạn có chắc chắn muốn xóa user "${data[indexItemDelete]?.username ?? ''}" ?`
                 }}
               </h3>
 
@@ -62,7 +62,7 @@
       <template v-slot:item.username="{ item }">
         <div class="py-3 flex items-center gap-2">
           <img
-            class="h-[50px] w-[50px] rounded-full"
+            class="h-[30px] w-[30px] rounded-full"
             :src="item.avatar"
             alt=""
           />
@@ -72,7 +72,7 @@
 
       <template v-slot:item.movie_name="{ item }">
         <div class="py-3 flex items-center gap-2">
-          <img class="h-[60px] w-[60px]" :src="item.thumbnail_url" alt="" />
+          <img class="h-[40px] w-[40px]" :src="item.thumbnail_url" alt="" />
           <h3 class="cursor-pointer icon" @click="goToDetail(item?.movie_slug)">
             {{ item.movie_name }}
           </h3>
@@ -87,14 +87,14 @@
 
       <template v-slot:item.actions="{ item }">
         <div class="flex gap-2">
-          <div @click="deleteItem(item, 'comment')" class="icon">
-            <v-icon size="small"> mdi-delete </v-icon>
-            Comment
-          </div>
-
           <div @click="deleteItem(item, 'user')" class="icon">
             <v-icon size="small"> mdi-delete </v-icon>
             User
+          </div>
+          
+          <div @click="deleteItem(item, 'comment')" class="icon">
+            <v-icon size="small"> mdi-delete </v-icon>
+            Comment
           </div>
         </div>
       </template>
@@ -108,6 +108,7 @@
 
 <script setup lang="ts">
 import userApi from '~/services/user-api'
+import adminApi from '~/services/admin-api'
 import { useAlertStore } from '~/stores/alert/alert-store'
 import { ALERT_TYPE, URL_MOVIE_WATCH } from '~/constants/common'
 import dayjs from 'dayjs'
@@ -128,6 +129,7 @@ const headers = [
     align: 'start',
     sortable: false,
     key: 'commentContent',
+    width: '25%'
   },
   {
     title: 'Được tạo bởi',
@@ -140,8 +142,8 @@ const headers = [
     sortable: false,
     key: 'movie_name',
   },
-  { title: 'Tổng số báo cáo', key: 'totalReport', align: 'center' },
-  { title: 'Cập nhật lúc', key: 'updatedAt' },
+  { title: 'Tổng số báo cáo', key: 'totalReport', align: 'center', width: '160px' },
+  { title: 'Cập nhật', key: 'updatedAt' },
   { title: 'Actions', key: 'actions', sortable: false, align: 'center' },
 ]
 
@@ -179,7 +181,7 @@ async function deleteItemConfirm(type: string) {
     dialogCommentDelete.value = false
     data.value.splice(indexItemDelete.value, 1)
     isLoading.value = true
-    await userApi.deleteComment(idCommentDelete.value)
+    await adminApi.deleteComment(idCommentDelete.value)
     isLoading.value = false
     alertStore.setAlertMessage({
       message: 'Đã xóa comment thành công',
@@ -189,7 +191,7 @@ async function deleteItemConfirm(type: string) {
     dialogUserDelete.value = false
     data.value.splice(indexItemDelete.value, 1)
     isLoading.value = true
-    await userApi.deleteComment(idCommentDelete.value)
+    await adminApi.deleteComment(idCommentDelete.value)
     await userApi.deleteUser(idUserDelete.value)
     isLoading.value = false
     alertStore.setAlertMessage({

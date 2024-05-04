@@ -49,7 +49,7 @@ onMounted(() => {
 
   chart.value = new Chart(ctx, {
     data: {
-      labels: props.data.map((item: any) => item.stats_time),
+      labels: props.data.map((item: any) => item.stats_time.slice(0, -5)),
       datasets: [
         {
           type: 'line',

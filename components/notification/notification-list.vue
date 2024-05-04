@@ -77,6 +77,7 @@ const headers = [
     align: 'start',
     sortable: false,
     key: 'content',
+    width: '60%'
   },
   { title: 'Target', key: 'type' },
   { title: 'Cập nhật lúc', key: 'updatedAt' },

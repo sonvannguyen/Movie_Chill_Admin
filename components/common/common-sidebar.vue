@@ -1,9 +1,9 @@
 <template>
   <div app dark color="#E9EEF4" class="sidebar">
-    <div class="text-center mt-5">
-      <h1 class="teal--text text-lg-h5 font-weight-bold">{{ username }}</h1>
+    <div class="text-center mt-8">
       <v-divider color="white" class="mt-4"></v-divider>
       <v-btn rounded color="#2EBFAF" outlined>MOVIE CHILL</v-btn>
+      <h1 class="teal--text text-lg-h5 font-weight-bold mt-5">{{ username }}</h1>
     </div>
 
     <v-list dense class="mt-5">

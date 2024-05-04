@@ -64,7 +64,7 @@
             <div class="flex justify-between items-center gap-[10px]">
               <v-icon color="white" size="45"> mdi-poll</v-icon>
               <div>
-                <h3 class="text-[20px]">Tổng lượt xem</h3>
+                <h3 class="text-[20px]">Tổng lượt xem / ngày</h3>
                 <div class="flex gap-3 items-center">
                   <h3 class="text-[24px] font-bold">
                     {{ todayStats?.total_view }}
@@ -89,7 +89,7 @@
                 mdi-chat-processing-outline</v-icon
               >
               <div>
-                <h3 class="text-[20px]">Tổng comments</h3>
+                <h3 class="text-[20px]">Tổng comments / ngày</h3>
                 <div class="flex gap-3 items-center">
                   <h3 class="text-[24px] font-bold">
                     {{ todayStats?.total_comment }}

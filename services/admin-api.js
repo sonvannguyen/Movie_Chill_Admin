@@ -14,8 +14,11 @@ const adminApi = {
   },
   getAllCommentReport: async () => {
     try {
-      const configHeader = getConfigHeader();
-      const res = await axios.get(`${BASE_URL_ADMIN}/report/comment`, configHeader)
+      const configHeader = getConfigHeader()
+      const res = await axios.get(
+        `${BASE_URL_ADMIN}/report/comment`,
+        configHeader,
+      )
       return res.data
     } catch (error) {
       handleError(error)
@@ -23,9 +26,23 @@ const adminApi = {
   },
   getSystemStats: async () => {
     try {
-      const configHeader = getConfigHeader();
-      const res = await axios.get(`${BASE_URL_ADMIN}/system-stats`, configHeader)
+      const configHeader = getConfigHeader()
+      const res = await axios.get(
+        `${BASE_URL_ADMIN}/system-stats`,
+        configHeader,
+      )
       return res.data
+    } catch (error) {
+      handleError(error)
+    }
+  },
+  deleteComment: async (commentId) => {
+    try {
+      const configHeader = getConfigHeader()
+      await axios.delete(
+        `${BASE_URL_ADMIN}/delete/comment/${commentId}`,
+        configHeader,
+      )
     } catch (error) {
       handleError(error)
     }
