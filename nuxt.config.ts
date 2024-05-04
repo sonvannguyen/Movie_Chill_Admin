@@ -48,27 +48,8 @@ export default defineNuxtConfig({
   ],
   app: {
     baseURL: '/',
+    head: {
+      link: [{ rel: 'icon', type: 'image/png', href: '/icon.png' }],
+    },
   },
-  // runtimeConfig: {
-  //   public: {
-  //     BACKEND_AWS_REGION: process.env.BACKEND_AWS_REGION,
-  //     BACKEND_AWS_COGNITO_IDENTITY_POOL_ID:
-  //       process.env.BACKEND_AWS_COGNITO_IDENTITY_POOL_ID,
-  //     HISTORY_TABLE: process.env.HISTORY_TABLE,
-  //     MASTER_TABLE: process.env.MASTER_TABLE,
-  //     NEWS_TABLE: process.env.NEWS_TABLE,
-  //     ALTERNATIVE_DATA_TABLE: process.env.ALTERNATIVE_DATA_TABLE,
-  //     FOREST_CREDIT_MARKETPLACE_TABLE:
-  //       process.env.FOREST_CREDIT_MARKETPLACE_TABLE,
-  //     INTERNAL_CARBON_PRICE_TABLE: process.env.INTERNAL_CARBON_PRICE_TABLE,
-  //     // Firebase config
-  //     GA_API_KEY: process.env.GA_API_KEY,
-  //     GA_AUTH_DOMAIN: process.env.GA_AUTH_DOMAIN,
-  //     GA_PROJECT_ID: process.env.GA_PROJECT_ID,
-  //     GA_STORAGE_BUCKET: process.env.GA_STORAGE_BUCKET,
-  //     GA_MESSAGING_SENDER_ID: process.env.GA_MESSAGING_SENDER_ID,
-  //     GA_APP_ID: process.env.GA_APP_ID,
-  //     GA_MEASUREMENT_ID: process.env.GA_MEASUREMENT_ID,
-  //   },
-  // },
 })
