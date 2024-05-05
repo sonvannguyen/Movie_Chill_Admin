@@ -67,17 +67,29 @@ const props = defineProps({
 
 const { value, errorMessage } = useField<File>(props.name)
 const previewImage = ref()
+const fileUpload = ref()
 const emit = defineEmits(['upload-image'])
 
 function chooseImage(event: any) {
-  const uploadData = new FormData()
-  uploadData.append('file', event.target.files[0], 'file')
   const file = event.target.files[0]
+
   if (file) {
-    emit('upload-image', props.name, uploadData)
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      fileUpload.value = reader.result
+    }
+    reader.readAsDataURL(file)
+
     value.value = file
   }
 }
+
+watch(fileUpload, () => {
+  if (fileUpload.value) {
+    console.log({fileUpload: fileUpload.value})
+    emit('upload-image', props.name, fileUpload.value)
+  }
+})
 
 watch(value, () => {
   if (value.value) {

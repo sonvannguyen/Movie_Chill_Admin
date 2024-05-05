@@ -251,11 +251,15 @@ const handleUpdate = async () => {
   let thumbUrlUploaded
   let posterUrlUploaded
   if (thumb.value) {
-    thumbUrlUploaded = await uploadImage(thumb.value)
+    thumbUrlUploaded = await uploadImage({
+      image_url: thumb.value,
+    })
     movieUpdate.thumb_url = thumbUrlUploaded
   }
   if (poster.value) {
-    posterUrlUploaded = await uploadImage(poster.value)
+    posterUrlUploaded = await uploadImage({
+      image_url: poster.value,
+    })
     movieUpdate.poster_url = posterUrlUploaded
   }
 
@@ -300,8 +304,8 @@ const handleUpdate = async () => {
 }
 
 onBeforeMount(() => {
-  if(!localStorage.getItem("movie_access_token")){
-    navigateTo("/login")
+  if (!localStorage.getItem('movie_access_token')) {
+    navigateTo('/login')
   }
 })
 </script>
