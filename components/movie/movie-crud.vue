@@ -38,7 +38,7 @@
       </template>
 
       <template v-slot:item.thumb_url="{ item }">
-        <img class="h-[100px]" :src="item.thumb_url" alt="" />
+        <img class="h-[100px]" :src="item.thumb_url?.replace('https://img.hiephanhthienha.com', 'https://img.ophim.live')" alt="" />
       </template>
 
       <template v-slot:item.actions="{ item }">

@@ -202,8 +202,8 @@ const setMovieData = async () => {
   category.value = response.category?.[0]
   actor.value = response.actor?.join(', ')
   episodeTotal.value = response.episode_total?.replace(' Tập', '')
-  thumbUrl.value = response.thumb_url
-  posterUrl.value = response.poster_url
+  thumbUrl.value = response.thumb_url?.replace('https://img.hiephanhthienha.com', 'https://img.ophim.live')
+  posterUrl.value = response.poster_url?.replace('https://img.hiephanhthienha.com', 'https://img.ophim.live')
   content.value = response.content
   status.value = response.status
   time.value = response.time

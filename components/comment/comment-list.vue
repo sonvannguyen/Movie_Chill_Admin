@@ -72,7 +72,7 @@
 
       <template v-slot:item.movie_name="{ item }">
         <div class="py-3 flex items-center gap-2">
-          <img class="h-[40px] w-[40px]" :src="item.thumbnail_url" alt="" />
+          <img class="h-[40px] w-[40px]" :src="item.thumbnail_url?.replace('https://img.hiephanhthienha.com', 'https://img.ophim.live')" alt="" />
           <h3 class="cursor-pointer icon" @click="goToDetail(item?.movie_slug)">
             {{ item.movie_name }}
           </h3>
