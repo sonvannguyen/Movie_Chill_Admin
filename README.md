@@ -8,4 +8,4 @@ Website xem phim và quản lý phim sử dụng Nodejs, ReactJs và MongoDB v�
 + Quản lý phim, thông báo, người dùng và bình luận vi phạm.
 
 ![Build a website to watch movies and manage movies](https://github.com/sonvannguyen/Movie_Chill/assets/88154833/ab84d1df-ec43-437f-b582-b1da1484fd12)
-s
+
